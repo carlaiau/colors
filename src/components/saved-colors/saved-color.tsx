@@ -7,13 +7,28 @@ type SavedColorProps = {
   hexColor: string;
   onClick?: MouseEventHandler<HTMLButtonElement>;
   onRemove?: () => void;
+  dispatch: React.Dispatch<AdjustColorActions>;
 };
 
-const SavedColor = ({ name, hexColor, onClick, onRemove }: SavedColorProps) => {
+const SavedColor = ({
+  name,
+  hexColor,
+  onClick,
+  onRemove,
+  dispatch,
+}: SavedColorProps) => {
   return (
-    <article className="flex items-center gap-2 place-content-between">
-      <ColorChangeSwatch hexColor={hexColor} onClick={onClick} />
-      <h3 className="text-sm whitespace-nowrap">{name}</h3>
+    <article className="flex place-content-between items-center gap-2">
+      <ColorChangeSwatch
+        hexColor={hexColor}
+        onClick={() =>
+          dispatch({
+            type: 'update-hex-color',
+            payload: { hexColor },
+          })
+        }
+      />
+      <h3 className="whitespace-nowrap text-sm">{name}</h3>
       <Button variant="destructive" size="small" onClick={onRemove}>
         Remove
       </Button>
